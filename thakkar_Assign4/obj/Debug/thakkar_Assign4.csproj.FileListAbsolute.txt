@@ -1,0 +1,10 @@
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\bin\Debug\thakkar_Assign4.exe.config
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\bin\Debug\thakkar_Assign4.exe
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\bin\Debug\thakkar_Assign4.pdb
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.csprojResolveAssemblyReference.cache
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.Form1.resources
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.Properties.Resources.resources
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.csproj.GenerateResource.Cache
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.csproj.CoreCompileInputs.cache
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.exe
+K:\NIU\sem3\dotNet\Assign4\thakkar_Assign4\thakkar_Assign4\obj\Debug\thakkar_Assign4.pdb
