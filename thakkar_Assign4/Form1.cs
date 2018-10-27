@@ -22,10 +22,6 @@ namespace thakkar_Assign4
         {
             InitializeComponent();
             Pencil_Button.FlatStyle = FlatStyle.Flat;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
             CurrentColorButton.BackColor = Color.Black;
         }
 
@@ -43,48 +39,64 @@ namespace thakkar_Assign4
             }
         }
 
-        private void Pencil_Button_Click(object sender, EventArgs e)
+        private void Draw_Button_Click(object sender, EventArgs e)
         {
+            Button featureButton = sender as Button;
             Brush_Button.FlatStyle = FlatStyle.Standard;
-            Pencil_Button.FlatStyle = FlatStyle.Flat;
-        }
-
-        private void Brush_Button_Click(object sender, EventArgs e)
-        {
             Pencil_Button.FlatStyle = FlatStyle.Standard;
-            Brush_Button.FlatStyle = FlatStyle.Flat;
+            Line_Button.FlatStyle = FlatStyle.Standard;
+            Erase_Button.FlatStyle = FlatStyle.Standard;
+
+            featureButton.FlatStyle = FlatStyle.Flat;
         }
 
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             start_Point = e.Location;
             if (e.Button == MouseButtons.Left)
+            {
                 mouseIsDown = true;
+            }
         }
 
         private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseIsDown)
+            end_Point = e.Location;
+            if (Line_Button.FlatStyle != FlatStyle.Flat)
             {
-                if (Pencil_Button.FlatStyle == FlatStyle.Flat)
+                if (mouseIsDown)
                 {
-                    myPen.Width = (float)Pencil_NumericUpDown.Value;
+                    g = PictureBox1.CreateGraphics();
+                    if (Pencil_Button.FlatStyle == FlatStyle.Flat)
+                    {
+                        myPen.Width = (float)Pencil_NumericUpDown.Value;
+                        myPen.Color = CurrentColorButton.BackColor;
+                    }
+                    else if (Brush_Button.FlatStyle == FlatStyle.Flat)
+                    {
+                        myPen.Width = (float)Brush_NumericUpDown.Value;
+                        myPen.Color = CurrentColorButton.BackColor;
+                    }
+                    else if (Erase_Button.FlatStyle == FlatStyle.Flat)
+                    {
+                        myPen.Width = 5;
+                        myPen.Color = PictureBox1.BackColor;
+                    }
+                    g.DrawLine(myPen, start_Point, end_Point);
                 }
-                else if(Brush_Button.FlatStyle == FlatStyle.Flat)
-                {
-                    myPen.Width = (float)Brush_NumericUpDown.Value;
-                }
-                end_Point = e.Location;
-                g = PictureBox1.CreateGraphics();
-                myPen.Color = CurrentColorButton.BackColor;
-                g.DrawLine(myPen, end_Point, start_Point);
+                start_Point = end_Point;
             }
-            start_Point = end_Point;
         }
 
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseIsDown = false;
+            if (Line_Button.FlatStyle == FlatStyle.Flat)
+            {
+                g = PictureBox1.CreateGraphics();
+                myPen.Color = CurrentColorButton.BackColor;
+                g.DrawLine(myPen, start_Point, end_Point);
+            }
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)

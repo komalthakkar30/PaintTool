@@ -75,6 +75,8 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.CurrentColorButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.Line_Button = new System.Windows.Forms.Button();
+            this.Erase_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -546,17 +548,17 @@
             // Pencil_Button
             // 
             this.Pencil_Button.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
-            this.Pencil_Button.Location = new System.Drawing.Point(332, 34);
+            this.Pencil_Button.Location = new System.Drawing.Point(179, 34);
             this.Pencil_Button.Name = "Pencil_Button";
             this.Pencil_Button.Size = new System.Drawing.Size(75, 30);
             this.Pencil_Button.TabIndex = 9;
             this.Pencil_Button.Text = "Pencil";
             this.Pencil_Button.UseVisualStyleBackColor = true;
-            this.Pencil_Button.Click += new System.EventHandler(this.Pencil_Button_Click);
+            this.Pencil_Button.Click += new System.EventHandler(this.Draw_Button_Click);
             // 
             // Pencil_NumericUpDown
             // 
-            this.Pencil_NumericUpDown.Location = new System.Drawing.Point(416, 37);
+            this.Pencil_NumericUpDown.Location = new System.Drawing.Point(263, 37);
             this.Pencil_NumericUpDown.Maximum = new decimal(new int[] {
             3,
             0,
@@ -578,7 +580,7 @@
             // 
             // Brush_NumericUpDown
             // 
-            this.Brush_NumericUpDown.Location = new System.Drawing.Point(416, 74);
+            this.Brush_NumericUpDown.Location = new System.Drawing.Point(263, 74);
             this.Brush_NumericUpDown.Maximum = new decimal(new int[] {
             8,
             0,
@@ -601,13 +603,13 @@
             // Brush_Button
             // 
             this.Brush_Button.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
-            this.Brush_Button.Location = new System.Drawing.Point(332, 70);
+            this.Brush_Button.Location = new System.Drawing.Point(179, 70);
             this.Brush_Button.Name = "Brush_Button";
             this.Brush_Button.Size = new System.Drawing.Size(75, 30);
             this.Brush_Button.TabIndex = 11;
             this.Brush_Button.Text = "Brush";
             this.Brush_Button.UseVisualStyleBackColor = true;
-            this.Brush_Button.Click += new System.EventHandler(this.Brush_Button_Click);
+            this.Brush_Button.Click += new System.EventHandler(this.Draw_Button_Click);
             // 
             // openFileDialog1
             // 
@@ -630,11 +632,35 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Current";
             // 
+            // Line_Button
+            // 
+            this.Line_Button.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
+            this.Line_Button.Location = new System.Drawing.Point(355, 34);
+            this.Line_Button.Name = "Line_Button";
+            this.Line_Button.Size = new System.Drawing.Size(75, 30);
+            this.Line_Button.TabIndex = 15;
+            this.Line_Button.Text = "Line";
+            this.Line_Button.UseVisualStyleBackColor = true;
+            this.Line_Button.Click += new System.EventHandler(this.Draw_Button_Click);
+            // 
+            // Erase_Button
+            // 
+            this.Erase_Button.FlatAppearance.BorderColor = System.Drawing.Color.DeepSkyBlue;
+            this.Erase_Button.Location = new System.Drawing.Point(355, 71);
+            this.Erase_Button.Name = "Erase_Button";
+            this.Erase_Button.Size = new System.Drawing.Size(75, 30);
+            this.Erase_Button.TabIndex = 16;
+            this.Erase_Button.Text = "Eraser";
+            this.Erase_Button.UseVisualStyleBackColor = true;
+            this.Erase_Button.Click += new System.EventHandler(this.Draw_Button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 719);
+            this.Controls.Add(this.Erase_Button);
+            this.Controls.Add(this.Line_Button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CurrentColorButton);
             this.Controls.Add(this.Brush_NumericUpDown);
@@ -648,7 +674,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -709,6 +734,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button CurrentColorButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Line_Button;
+        private System.Windows.Forms.Button Erase_Button;
     }
 }
 
