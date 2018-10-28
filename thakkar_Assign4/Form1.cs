@@ -13,6 +13,7 @@ namespace thakkar_Assign4
     public partial class Form1 : Form
     {
         Graphics g;
+        Image File;
         Pen myPen = new Pen(Color.Black);
         Point start_Point = new Point(0, 0);
         Point end_Point = new Point(0, 0);
@@ -91,22 +92,47 @@ namespace thakkar_Assign4
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseIsDown = false;
+            g = PictureBox1.CreateGraphics();
+            myPen.Color = CurrentColorButton.BackColor;
+
             if (Line_Button.FlatStyle == FlatStyle.Flat)
             {
-                g = PictureBox1.CreateGraphics();
-                myPen.Color = CurrentColorButton.BackColor;
                 g.DrawLine(myPen, start_Point, end_Point);
+            }
+            else if(start_Point == end_Point && Erase_Button.FlatStyle != FlatStyle.Flat)
+            {
+                var width = (Pencil_Button.FlatStyle == FlatStyle.Flat) ? (float)Pencil_NumericUpDown.Value : (float)Brush_NumericUpDown.Value;
+                SolidBrush brush = new SolidBrush(CurrentColorButton.BackColor);
+                g.FillEllipse(brush, start_Point.X - 4, start_Point.Y - 4, width, width);
             }
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                File = Image.FromFile(openFileDialog1.FileName);
+                PictureBox1.Image = File;
+            }
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.ShowDialog();
+        }
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
         }
     }
 }
