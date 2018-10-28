@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 
 namespace thakkar_Assign4
@@ -13,7 +10,7 @@ namespace thakkar_Assign4
     public partial class Form1 : Form
     {
         Graphics g;
-        Image File;
+        Image imageFile;
         Pen myPen = new Pen(Color.Black);
         Point start_Point = new Point(0, 0);
         Point end_Point = new Point(0, 0);
@@ -97,6 +94,7 @@ namespace thakkar_Assign4
 
             if (Line_Button.FlatStyle == FlatStyle.Flat)
             {
+                myPen.Width = 3;
                 g.DrawLine(myPen, start_Point, end_Point);
             }
             else if(start_Point == end_Point && Erase_Button.FlatStyle != FlatStyle.Flat)
@@ -107,23 +105,45 @@ namespace thakkar_Assign4
             }
         }
 
+        /*******************    File Management Features    ******************/
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                File = Image.FromFile(openFileDialog1.FileName);
-                PictureBox1.Image = File;
+                imageFile = Image.FromFile(openFileDialog1.FileName);
+                PictureBox1.Image = imageFile;
             }
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.ShowDialog();
-        }
+            if (saveFileDialog1.FileName != "")
+            {
+                using (FileStream fs = (FileStream)saveFileDialog1.OpenFile())
+                {
+                    switch (saveFileDialog1.FilterIndex)
+                    {
+                        case 1:
+                            PictureBox1.Image.Save(fs, ImageFormat.Jpeg);
+                            break;
 
-        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+                        case 2:
+                            PictureBox1.Image.Save(fs, ImageFormat.Bmp);
+                            break;
 
+                        case 3:
+                            PictureBox1.Image.Save(fs, ImageFormat.Png);
+                            break;
+                    }
+                }
+            }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -133,6 +153,12 @@ namespace thakkar_Assign4
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

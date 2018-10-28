@@ -67,6 +67,9 @@
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Pencil_Button = new System.Windows.Forms.Button();
             this.Pencil_NumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.Brush_NumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -78,9 +81,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Line_Button = new System.Windows.Forms.Button();
             this.Erase_Button = new System.Windows.Forms.Button();
-            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -506,7 +506,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileManagementToolStripMenuItem,
             this.UndoToolStripMenuItem,
-            this.redoToolStripMenuItem});
+            this.RedoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1055, 28);
@@ -557,6 +557,28 @@
             | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
             this.saveAsToolStripMenuItem.Text = "Save As";
+            // 
+            // ExitToolStripMenuItem
+            // 
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.ExitToolStripMenuItem.Text = "Exit";
+            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // UndoToolStripMenuItem
+            // 
+            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
+            this.UndoToolStripMenuItem.Text = "Undo";
+            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
+            // 
+            // RedoToolStripMenuItem
+            // 
+            this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.RedoToolStripMenuItem.Text = "Redo";
+            this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // Pencil_Button
             // 
@@ -631,6 +653,12 @@
             // 
             this.openFileDialog1.Filter = "All Picture Files|*.jpg;*.jpeg;*.png;*.gif";
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "JPEG File (*.jpg)|*.jpg|Bitmap File (*.bmp)|*.bmp|PNG File(*.png)|*.png";
+            this.saveFileDialog1.FilterIndex = 3;
+            this.saveFileDialog1.Title = "Save an Image File";
+            // 
             // CurrentColorButton
             // 
             this.CurrentColorButton.Location = new System.Drawing.Point(471, 32);
@@ -671,27 +699,6 @@
             this.Erase_Button.TabIndex = 16;
             this.Erase_Button.UseVisualStyleBackColor = true;
             this.Erase_Button.Click += new System.EventHandler(this.Draw_Button_Click);
-            // 
-            // ExitToolStripMenuItem
-            // 
-            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
-            this.ExitToolStripMenuItem.Text = "Exit";
-            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
-            // 
-            // UndoToolStripMenuItem
-            // 
-            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
-            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
-            this.UndoToolStripMenuItem.Text = "Undo";
-            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
-            this.redoToolStripMenuItem.Text = "Redo";
             // 
             // Form1
             // 
@@ -777,7 +784,7 @@
         private System.Windows.Forms.Button Erase_Button;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
     }
 }
 
