@@ -27,19 +27,17 @@ namespace thakkar_Assign4
             Pencil_Button.FlatStyle = FlatStyle.Flat;
             CurrentColorButton.BackColor = Color.Black;
             bmp = new Bitmap(PictureBox1.Width, PictureBox1.Height);
-            //g = PictureBox1.CreateGraphics();
             g = Graphics.FromImage(bmp);
 
             if (_undoStack.Count == 0)
             {
                 UndoToolStripMenuItem.Enabled = false;
-                _undoStack.Push(PictureBox1.Image);
+                _undoStack.Push(new Bitmap(bmp));
             }
             if (_redoStack.Count == 0)
             {
                 RedoToolStripMenuItem.Enabled = false;
             }
-            //SaveSnapshot();
         }
 
         private void Color_button_Click(object sender, EventArgs e)
@@ -136,29 +134,18 @@ namespace thakkar_Assign4
                 string message = "You did not save the existing filename. Save this file?";
                 string caption = "Alert box";
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result;
 
-                // Displays the MessageBox.
+                // Displays the MessageBox
 
-                result = MessageBox.Show(message, caption, buttons);
-
-                if (result == DialogResult.Yes)
+                if (MessageBox.Show(message, caption, buttons) == DialogResult.Yes)
                 {
-
-                    Bitmap bmp = new Bitmap(PictureBox1.Width, PictureBox1.Height);
-                    Rectangle bounds = new Rectangle(Left, Top, Width, Height);
-                    PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
-
-                    saveFileDialog1.ShowDialog();
-                    bmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
-                    PictureBox1.Image.Dispose();
-                    PictureBox1.Image = null;
-
+                    SaveToolStripMenuItem_Click(sender, e);
                 }
-                if (result == DialogResult.No)
+                else
                 {
-                    PictureBox1.Image.Dispose();
+                    //bmp.
                     PictureBox1.Image = null;
+                    PictureBox1.Refresh();
                 }
             }
         }
@@ -169,15 +156,18 @@ namespace thakkar_Assign4
             {
                 using (imageFile = Image.FromFile(openFileDialog1.FileName))
                 {
-                    FileName = openFileDialog1.FileName;
-                    PictureBox1.Image = imageFile;
-                    PictureBox1.Refresh();
-                    PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
-
                     _undoStack.Clear();
-                    UndoToolStripMenuItem.Enabled = false;
-                    _undoStack.Push(PictureBox1.Image);
                     _redoStack.Clear();
+
+                    FileName = openFileDialog1.FileName;
+
+                    bmp = new Bitmap(imageFile);
+                    g = Graphics.FromImage(bmp);
+                    PictureBox1.Image = bmp;
+                    PictureBox1.Refresh();
+                    _undoStack.Push(new Bitmap(bmp));
+
+                    UndoToolStripMenuItem.Enabled = false;
                     RedoToolStripMenuItem.Enabled = false;
                 }
             }
@@ -197,13 +187,13 @@ namespace thakkar_Assign4
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Bitmap bmp = new Bitmap(PictureBox1.Width, PictureBox1.Height);
-            PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
-
-            saveFileDialog1.RestoreDirectory = true;
-            saveFileDialog1.ShowDialog();
-            bmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
-            FileName = saveFileDialog1.FileName;
+            DialogResult result = saveFileDialog1.ShowDialog();
+            
+            if (result == DialogResult.OK)
+            {
+                bmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
+                FileName = saveFileDialog1.FileName;
+            }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -216,48 +206,39 @@ namespace thakkar_Assign4
             _redoStack.Push(_undoStack.Pop());
             RedoToolStripMenuItem.Enabled = true;
 
-            if (_undoStack.Count > 0)
-            {
-                PictureBox1.Image = _undoStack.Peek();
-                PictureBox1.Refresh();
-                //bmp = new Bitmap(PictureBox1.Image);
-            }
-            else
-            {
-                PictureBox1.Image = null;
-                PictureBox1.Refresh();
-                UndoToolStripMenuItem.Enabled = false;
-            }
-            //PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
+            bmp = new Bitmap(_undoStack.Peek());
+            g = Graphics.FromImage(bmp);
+            PictureBox1.Image = bmp;
+            PictureBox1.Refresh();
+            
+            UndoToolStripMenuItem.Enabled = !(_undoStack.Count == 1);
         }
 
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _undoStack.Push(_redoStack.Pop());
             UndoToolStripMenuItem.Enabled = true;
-            //OnRedo();
-            PictureBox1.Image = _undoStack.Peek();
-            PictureBox1.Refresh();
 
-            if(_redoStack.Count <= 0)
-            {
-                RedoToolStripMenuItem.Enabled = false;
-            }
-            PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
+            bmp = new Bitmap(_undoStack.Peek());
+            g = Graphics.FromImage(bmp);
+            PictureBox1.Image = bmp;
+            PictureBox1.Refresh();
+            
+            RedoToolStripMenuItem.Enabled = !(_redoStack.Count == 0);
         }
+
         private void SaveSnapshot()
         {
             //assign bmp to picturebox image to update
             PictureBox1.Image = bmp;
             PictureBox1.Update();
 
-            if (_undoStack.Count == 0)
+            if (_redoStack.Count > 0)
             {
                 _redoStack.Clear();
                 RedoToolStripMenuItem.Enabled = false;
             }
-            _undoStack.Push(PictureBox1.Image);
-            PictureBox1.DrawToBitmap(bmp, PictureBox1.ClientRectangle);
+            _undoStack.Push(new Bitmap(bmp));
             UndoToolStripMenuItem.Enabled = true;
         }
     }
