@@ -66,7 +66,7 @@
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,7 +94,7 @@
             this.PictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
             this.PictureBox1.Location = new System.Drawing.Point(12, 116);
             this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(1030, 591);
+            this.PictureBox1.Size = new System.Drawing.Size(1031, 591);
             this.PictureBox1.TabIndex = 0;
             this.PictureBox1.TabStop = false;
             this.PictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseDown);
@@ -519,7 +519,7 @@
             this.NewToolStripMenuItem,
             this.OpenToolStripMenuItem,
             this.SaveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
+            this.SaveAsToolStripMenuItem,
             this.ExitToolStripMenuItem});
             this.fileManagementToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.fileManagementToolStripMenuItem.Name = "fileManagementToolStripMenuItem";
@@ -550,13 +550,14 @@
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem
+            // SaveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
+            this.SaveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
-            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.SaveAsToolStripMenuItem.Text = "Save As";
+            this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
@@ -770,7 +771,7 @@
         private System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
         private System.Windows.Forms.Button Pencil_Button;
         private System.Windows.Forms.NumericUpDown Pencil_NumericUpDown;
         private System.Windows.Forms.NumericUpDown Brush_NumericUpDown;
