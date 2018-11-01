@@ -18,6 +18,7 @@ namespace thakkar_Assign4
         Point end_Point = new Point(0, 0);
         bool mouseIsDown = false;
         String FileName = "";
+        bool isNewButtonClicked = false;
         private Stack<Image> _undoStack = new Stack<Image>();
         private Stack<Image> _redoStack = new Stack<Image>();
 
@@ -137,15 +138,14 @@ namespace thakkar_Assign4
 
                 // Displays the MessageBox
 
+                isNewButtonClicked = true;
                 if (MessageBox.Show(message, caption, buttons) == DialogResult.Yes)
                 {
                     SaveToolStripMenuItem_Click(sender, e);
                 }
                 else
                 {
-                    //bmp.
-                    PictureBox1.Image = null;
-                    PictureBox1.Refresh();
+                    ResetPictureBox();
                 }
             }
         }
@@ -182,6 +182,10 @@ namespace thakkar_Assign4
             else
             {
                 bmp.Save(FileName, ImageFormat.Png);
+                if (isNewButtonClicked)
+                {
+                    ResetPictureBox();
+                }
             }
         }
 
@@ -193,6 +197,10 @@ namespace thakkar_Assign4
             {
                 bmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
                 FileName = saveFileDialog1.FileName;
+                if (isNewButtonClicked)
+                {
+                    ResetPictureBox();
+                }
             }
         }
 
@@ -240,6 +248,23 @@ namespace thakkar_Assign4
             }
             _undoStack.Push(new Bitmap(bmp));
             UndoToolStripMenuItem.Enabled = true;
+        }
+
+        private void ResetPictureBox()
+        {
+            FileName = "";
+            bmp = new Bitmap(PictureBox1.Width, PictureBox1.Height);
+            g = Graphics.FromImage(bmp);
+            PictureBox1.Image = bmp;
+            PictureBox1.Refresh();
+
+            _undoStack.Clear();
+            _redoStack.Clear();
+            UndoToolStripMenuItem.Enabled = false;
+            RedoToolStripMenuItem.Enabled = false;
+            isNewButtonClicked = false;
+
+            _undoStack.Push(new Bitmap(bmp));
         }
     }
 }
