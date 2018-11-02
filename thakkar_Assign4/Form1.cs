@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
@@ -21,10 +20,14 @@ namespace thakkar_Assign4
         bool isNewButtonClicked = false;
         private Stack<Image> _undoStack = new Stack<Image>();
         private Stack<Image> _redoStack = new Stack<Image>();
+        private List<String> _recentFiles = new List<string>();
 
+
+        /*******************    Defined Initial State and Behaviour    ******************/
         public Form1()
         {
             InitializeComponent();
+            
             Pencil_Button.FlatStyle = FlatStyle.Flat;
             CurrentColorButton.BackColor = Color.Black;
             bmp = new Bitmap(PictureBox1.Width, PictureBox1.Height);
@@ -32,15 +35,32 @@ namespace thakkar_Assign4
 
             if (_undoStack.Count == 0)
             {
-                UndoToolStripMenuItem.Enabled = false;
+                Undo_Button.Enabled = false;
                 _undoStack.Push(new Bitmap(bmp));
             }
             if (_redoStack.Count == 0)
             {
-                RedoToolStripMenuItem.Enabled = false;
+                Redo_Button.Enabled = false;
+            }
+
+            using (StreamReader readFile = new StreamReader("..\\..\\RecentFiles.txt"))
+            {
+                String line = readFile.ReadLine();
+                while (line != null)
+                {
+                    _recentFiles.Add(line);
+                    line = readFile.ReadLine();
+                    RecentFilesToolStripMenuItem.DropDownItems.Add(_recentFiles[_recentFiles.Count - 1]).Click += RecentFiles_MenuItem_Click;
+                }
+                if (_recentFiles.Count > 0)
+                {
+                    RecentFilesToolStripMenuItem.Enabled = true;
+                }
             }
         }
 
+        /*******************    Color Selection    ******************/
+        #region color selection
         private void Color_button_Click(object sender, EventArgs e)
         {
             Button myButton = sender as Button;
@@ -54,7 +74,11 @@ namespace thakkar_Assign4
                 CurrentColorButton.BackColor = colorDialog1.Color;
             }
         }
+        #endregion
 
+
+        /*******************    Paint Tool Selection    ******************/
+        #region paint tool
         private void Draw_Button_Click(object sender, EventArgs e)
         {
             Button featureButton = sender as Button;
@@ -65,7 +89,11 @@ namespace thakkar_Assign4
 
             featureButton.FlatStyle = FlatStyle.Flat;
         }
+        #endregion
 
+
+        /*******************    Picturebox Mouse Events    ******************/
+        #region Picturebox Mouse Events
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             start_Point = e.Location;
@@ -125,9 +153,11 @@ namespace thakkar_Assign4
 
             SaveSnapshot();
         }
+        #endregion
+
 
         /*******************    File Management Features    ******************/
-
+        #region File Management Features
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (PictureBox1.Image != null)
@@ -154,22 +184,7 @@ namespace thakkar_Assign4
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                using (imageFile = Image.FromFile(openFileDialog1.FileName))
-                {
-                    _undoStack.Clear();
-                    _redoStack.Clear();
-
-                    FileName = openFileDialog1.FileName;
-
-                    bmp = new Bitmap(imageFile);
-                    g = Graphics.FromImage(bmp);
-                    PictureBox1.Image = bmp;
-                    PictureBox1.Refresh();
-                    _undoStack.Push(new Bitmap(bmp));
-
-                    UndoToolStripMenuItem.Enabled = false;
-                    RedoToolStripMenuItem.Enabled = false;
-                }
+                OpenFile(sender, e, false);
             }
         }
 
@@ -186,6 +201,7 @@ namespace thakkar_Assign4
                 {
                     ResetPictureBox();
                 }
+                SaveRecentFilesToolStripMenuItem(sender,e);
             }
         }
 
@@ -201,38 +217,52 @@ namespace thakkar_Assign4
                 {
                     ResetPictureBox();
                 }
+                SaveRecentFilesToolStripMenuItem(sender, e);
             }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            using (StreamWriter stringToWrite = new StreamWriter("..\\..\\RecentFiles.txt"))
+            {
+                for (int i = _recentFiles.Count - 1; i >= 0; i--)
+                {
+                    stringToWrite.WriteLine(_recentFiles[i]);
+                }
+                stringToWrite.Flush(); //write stream to file
+            }
+            Environment.Exit(0);
         }
 
-        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        #endregion
+
+
+        /*******************    Redo Undo Features    ******************/
+        #region Redo Undo
+        private void Undo_Button_Click(object sender, EventArgs e)
         {
             _redoStack.Push(_undoStack.Pop());
-            RedoToolStripMenuItem.Enabled = true;
+            Redo_Button.Enabled = true;
 
             bmp = new Bitmap(_undoStack.Peek());
             g = Graphics.FromImage(bmp);
             PictureBox1.Image = bmp;
             PictureBox1.Refresh();
-            
-            UndoToolStripMenuItem.Enabled = !(_undoStack.Count == 1);
+
+            Undo_Button.Enabled = !(_undoStack.Count == 1);
         }
 
-        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Redo_Button_Click(object sender, EventArgs e)
         {
             _undoStack.Push(_redoStack.Pop());
-            UndoToolStripMenuItem.Enabled = true;
+            Undo_Button.Enabled = true;
 
             bmp = new Bitmap(_undoStack.Peek());
             g = Graphics.FromImage(bmp);
             PictureBox1.Image = bmp;
             PictureBox1.Refresh();
-            
-            RedoToolStripMenuItem.Enabled = !(_redoStack.Count == 0);
+
+            Redo_Button.Enabled = !(_redoStack.Count == 0);
         }
 
         private void SaveSnapshot()
@@ -244,10 +274,10 @@ namespace thakkar_Assign4
             if (_redoStack.Count > 0)
             {
                 _redoStack.Clear();
-                RedoToolStripMenuItem.Enabled = false;
+                Redo_Button.Enabled = false;
             }
             _undoStack.Push(new Bitmap(bmp));
-            UndoToolStripMenuItem.Enabled = true;
+            Undo_Button.Enabled = true;
         }
 
         private void ResetPictureBox()
@@ -260,11 +290,71 @@ namespace thakkar_Assign4
 
             _undoStack.Clear();
             _redoStack.Clear();
-            UndoToolStripMenuItem.Enabled = false;
-            RedoToolStripMenuItem.Enabled = false;
+            Undo_Button.Enabled = false;
+            Redo_Button.Enabled = false;
             isNewButtonClicked = false;
 
             _undoStack.Push(new Bitmap(bmp));
         }
+        #endregion
+
+
+        /*******************    Recent Files Feature    ******************/
+        #region Recent File Operations
+        private void SaveRecentFilesToolStripMenuItem(object sender, EventArgs e)
+        {
+            if (_recentFiles.Contains(FileName)) //prevent duplication on recent list
+            {
+                _recentFiles.Remove(FileName);
+            }
+            if (_recentFiles.Count == 5)
+            {
+                _recentFiles.RemoveAt(0);
+            }
+            _recentFiles.Add(FileName);
+            RecentFilesToolStripMenuItem.DropDownItems.Clear();
+
+            for (int i = _recentFiles.Count - 1; i >= 0; i--)
+            {
+                RecentFilesToolStripMenuItem.DropDownItems.Add(_recentFiles[i]).Click += RecentFiles_MenuItem_Click;
+            }
+            RecentFilesToolStripMenuItem.Enabled = true;
+        }
+
+        private void RecentFiles_MenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripItem obj = sender as ToolStripItem;
+            FileName = obj.Text;
+            OpenFile(sender, e, true);
+        }
+
+        private void OpenFile(object sender, EventArgs e, bool isRecentFileClicked)
+        {
+            if (!isRecentFileClicked)
+            {
+                FileName = openFileDialog1.FileName;
+            }
+            using (imageFile = Image.FromFile(FileName))
+            {
+                _undoStack.Clear();
+                _redoStack.Clear();
+                bmp = new Bitmap(imageFile);
+                g = Graphics.FromImage(bmp);
+                PictureBox1.Image = bmp;
+                PictureBox1.Refresh();
+                _undoStack.Push(new Bitmap(bmp));
+
+                Undo_Button.Enabled = false;
+                Redo_Button.Enabled = false;
+                SaveRecentFilesToolStripMenuItem(sender, e);
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ExitToolStripMenuItem_Click(sender, e);
+            Environment.Exit(0);
+        }
+        #endregion
     }
 }

@@ -79,6 +79,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icons\brush.png" />
+    <Content Include="icons\eraser.png" />
+    <Content Include="icons\line.png" />
+    <Content Include="icons\pencil.png" />
+    <Content Include="icons\Redo.png" />
+    <Content Include="icons\Undo.png" />
     <Content Include="RecentFiles.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
